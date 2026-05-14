@@ -97,6 +97,31 @@ const deck = [
       'Liên hệ với sinh viên: proposal tốt giống một bản kế hoạch sản phẩm ngắn, có vấn đề rõ, người dùng rõ và kết quả đo được.'
   },
   {
+    eyebrow: 'Governance',
+    title: 'Cardano governance: ai quyết định?',
+    subtitle:
+      'Sau Conway / Voltaire, Cardano chuyển sâu hơn sang quản trị on-chain: quyết định được đưa thành governance actions và được cộng đồng theo dõi công khai.',
+    type: 'governance-grid',
+    cards: [
+      ['CIP-1694', 'Khung quản trị on-chain đầu tiên của Cardano: định nghĩa governance actions, DReps, SPO voting roles và Constitutional Committee.'],
+      ['DReps', 'Ada holders có thể tự tham gia hoặc ủy quyền voting power cho Delegated Representatives để bỏ phiếu thay mình.'],
+      ['SPOs', 'Stake Pool Operators tham gia một số quyết định quan trọng, đặc biệt liên quan đến bảo mật giao thức và hard forks.'],
+      ['Constitutional Committee', 'Kiểm tra governance actions có phù hợp với hiến pháp Cardano hay không. Không một nhóm nào tự quyết định một mình.'],
+      ['Governance actions', 'Đề xuất on-chain cho protocol changes, treasury withdrawals, hard forks, committee changes, constitution updates và info actions.'],
+      ['Treasury withdrawals', 'Yêu cầu rút vốn từ treasury là một loại governance action chính thức, cần được phê duyệt theo quy tắc quản trị.']
+    ],
+    source: {
+      label: 'Nguồn: CIP-1694; Cardano Governance; Cardano developer docs',
+      urls: [
+        'https://cips.cardano.org/cip/CIP-1694',
+        'https://cardano.org/governance/',
+        'https://developers.cardano.org/docs/governance/cardano-governance/governance-actions/'
+      ]
+    },
+    notes:
+      'Giữ cách giải thích đơn giản: governance không phải khái niệm trừu tượng, mà là quy trình ai được quyền bỏ phiếu và quyết định nào được đưa lên chain.'
+  },
+  {
     eyebrow: 'Dữ liệu on-chain',
     title: 'Cardano snapshot: nguồn vốn nằm trên chain',
     subtitle:
@@ -185,7 +210,7 @@ const deck = [
     eyebrow: 'Catalyst data',
     title: 'Catalyst by the numbers',
     subtitle:
-      'Catalyst biến ngân sách cộng đồng thành các vòng tài trợ có proposal, review, voting và milestone. Các fund gần đây cho thấy quy mô proposal và voting rất lớn.',
+      'Catalyst biến ngân sách cộng đồng thành các vòng tài trợ có proposal, review, voting và milestone. Fund15 cần được trình bày là paused / not final, không phải đã có kết quả.',
     type: 'catalyst-chart',
     global: [
       ['150M+ USD', 'Total funding'],
@@ -195,14 +220,44 @@ const deck = [
     funds: [
       ['Fund13', '46.48M ada', '199 / 1,639', '310,597 votes', 46.48],
       ['Fund14', '18.59M ada', '131 / 1,283', '174,737 votes', 18.59],
-      ['Fund15', '18.50M ada + 250K USDM', 'Pending', 'Voting/results pending', 18.5]
+      ['Fund15', '18.50M ada + 250K USDM', 'Voting paused', 'No final official results as of 14/05/2026', 18.5]
     ],
     source: {
-      label: 'Nguồn: Project Catalyst, Fund13-Fund15 pages',
-      url: 'https://projectcatalyst.io/'
+      label: 'Nguồn: Project Catalyst Fund13-Fund15; Fund15 pause/team updates',
+      urls: [
+        'https://projectcatalyst.io/funds/15',
+        'https://projectcatalyst.io/blog/update-on-fund15-voting',
+        'https://projectcatalyst.io/blog/update-from-the-catalyst-team'
+      ]
     },
     notes:
-      'Fund15 chưa có kết quả funding tại snapshot này, nên trình bày là budget và trạng thái pending, không nói đã funded.'
+      'Fund15 không được mô tả là đã funded. Dùng đúng trạng thái paused / not final trừ khi Catalyst công bố bản cập nhật chính thức mới hơn.'
+  },
+  {
+    eyebrow: 'Ecosystem',
+    title: 'Cardano không chỉ là transaction network',
+    subtitle:
+      'Một hệ sinh thái blockchain cần nhiều lớp hoạt động cùng lúc: tài sản native, DApps, staking, governance, treasury funding và public analytics.',
+    type: 'ecosystem-grid',
+    cards: [
+      ['Native assets', 'Cardano hỗ trợ multi-assets ở cấp ledger; token thông thường không cần smart contract để chuyển.'],
+      ['DApps & projects', 'CardanoCube và các dashboard hệ sinh thái cho thấy nhiều mảng: DeFi, wallets, NFTs, gaming, infrastructure, governance, education.'],
+      ['Stake pools', 'SPOs vận hành hạ tầng sản xuất block và tham gia một số quyết định governance.'],
+      ['Delegation', 'Ada holders có thể delegate stake để tham gia network và delegate voting power riêng cho DReps.'],
+      ['Governance dashboards', 'GovTool, CGov, CExplorer và Dune giúp theo dõi proposals, DReps, treasury requests và voting activity.'],
+      ['Treasury proposals', 'Treasury funding có thể được theo dõi công khai qua governance actions và dashboard phân tích.']
+    ],
+    source: {
+      label: 'Nguồn: Cardano native tokens docs; CardanoCube; CExplorer; CGov',
+      urls: [
+        'https://docs.cardano.org/developer-resources/native-tokens',
+        'https://www.cardanocube.com/cardano-ecosystem-interactive-map',
+        'https://cexplorer.io/governance',
+        'https://app.cgov.io/'
+      ]
+    },
+    notes:
+      'Không dùng số lượng DApps, DReps hay stake pools cụ thể nếu chưa kiểm tra live dashboard ngay trước buổi trình bày.'
   },
   {
     eyebrow: 'Nội dung chính',
@@ -220,6 +275,34 @@ const deck = [
     ],
     notes:
       'Có thể cho ví dụ: một nhóm sinh viên làm bộ tài liệu Plutus/Aiken tiếng Việt, kèm workshop và repo mẫu.'
+  },
+  {
+    eyebrow: 'Proposal case study',
+    title: 'Case: Cardano Vietnam Monthly Meetups 2026',
+    subtitle:
+      'Một proposal tốt có thể không phải là code. Điểm quan trọng là vấn đề rõ, ngân sách rõ, milestone rõ và có bằng chứng hoàn thành.',
+    type: 'case-study',
+    summary: [
+      ['Fund', 'Fund14'],
+      ['Status', 'In progress · 1/4 milestones completed at review time'],
+      ['Budget', '58,650 ada'],
+      ['Distributed', '22,482 ada'],
+      ['Remaining', '36,168 ada']
+    ],
+    cards: [
+      ['Problem', 'Cộng đồng Cardano Việt Nam hoạt động online nhưng thiếu meetup offline đều đặn để onboarding, chia sẻ kiến thức và kết nối builder.'],
+      ['Solution', 'Tổ chức 12 monthly meetups trong năm 2026 cho ADA holders, SPOs, DReps, builders và community members.'],
+      ['Milestones', 'M1: meetups 1-3; M2: 4-6; M3: 7-9; M4: 10-12 và closeout.'],
+      ['Deliverables', 'Event plans, registration links, promo materials, recaps, photos/videos, surveys, feedback reports, final report và close-out video.'],
+      ['Metrics', '12 meetups, 360+ attendees, 120+ unique participants, 40%+ new to Cardano, voter registrations và new Catalyst proposals from Vietnam.'],
+      ['Why it works', 'Dễ đánh giá vì có problem-solution rõ, ngân sách cụ thể, đầu ra đo được và tác động cộng đồng thực tế.']
+    ],
+    source: {
+      label: 'Nguồn: Project Catalyst proposal - Cardano Vietnam Monthly Meetups 2026',
+      url: 'https://projectcatalyst.io/funds/14/cardano-open-ecosystem/cardano-vietnam-monthly-meetups-2026'
+    },
+    notes:
+      'Dùng slide này cho phần workshop: yêu cầu sinh viên đọc problem, budget, milestone, deliverable rồi đánh giá proposal có đáng tài trợ không.'
   },
   {
     eyebrow: 'Agenda',
@@ -435,12 +518,33 @@ function slideInner(slide) {
                 <span>${budget}</span>
               </div>
               <div class="fund-track"><span style="width:${Math.max(18, (width / 46.48) * 100)}%"></span></div>
-              <p>${funded} proposals · ${votes}</p>
+              <p>${funded} · ${votes}</p>
             </article>
           `
             )
             .join('')}
         </div>
+      </div>
+    `;
+  }
+
+  if (slide.type === 'case-study') {
+    return `
+      ${slideHeader(slide)}
+      <div class="case-layout">
+        <aside class="case-summary">
+          ${slide.summary
+            .map(
+              ([label, value]) => `
+            <div>
+              <span>${label}</span>
+              <strong>${value}</strong>
+            </div>
+          `
+            )
+            .join('')}
+        </aside>
+        <div class="card-grid compact">${slide.cards.map(([title, text]) => infoCard(title, text)).join('')}</div>
       </div>
     `;
   }

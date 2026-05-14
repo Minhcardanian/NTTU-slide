@@ -271,7 +271,8 @@ h2 {
 .mini-card-row,
 .data-layout,
 .chart-layout,
-.catalyst-layout {
+.catalyst-layout,
+.case-layout {
   position: relative;
   z-index: 1;
   display: grid;
@@ -291,6 +292,10 @@ h2 {
 }
 
 .catalyst-layout {
+  grid-template-columns: 280px minmax(0, 1fr);
+}
+
+.case-layout {
   grid-template-columns: 280px minmax(0, 1fr);
 }
 
@@ -361,6 +366,7 @@ h2 {
 .stat-callout,
 .bar-chart,
 .dashboard-callout,
+.case-summary,
 .fund-bars article {
   background: var(--surface-soft);
   border: 1px solid var(--line);
@@ -588,6 +594,38 @@ h2 {
 
 .fund-track span {
   background: linear-gradient(90deg, var(--blue), var(--orange));
+}
+
+.case-summary {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 16px;
+}
+
+.case-summary div {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+
+.case-summary div:last-child {
+  border-bottom: 0;
+}
+
+.case-summary span {
+  display: block;
+  color: var(--orange);
+  font-size: 11px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.case-summary strong {
+  display: block;
+  margin-top: 5px;
+  color: var(--text);
+  font-size: clamp(14px, 1.25vw, 18px);
+  line-height: 1.32;
 }
 
 .source-footnote {
@@ -1008,7 +1046,8 @@ h2 {
   .quiz-layout,
   .data-layout,
   .chart-layout,
-  .catalyst-layout {
+  .catalyst-layout,
+  .case-layout {
     grid-template-columns: 1fr;
     align-items: start;
   }
