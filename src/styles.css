@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=DM+Serif+Display:ital@0;1&display=swap&subset=vietnamese');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap&subset=vietnamese');
 
 :root {
   --bg: #f7faf7;
@@ -15,7 +15,7 @@
   --orange-strong: #0f5c2a;
   --pink: #3ecf6e;
   --green: #1a7a3c;
-  --serif: 'DM Serif Display', Georgia, serif;
+  --serif: 'Be Vietnam Pro', Arial, sans-serif;
   --shadow: 0 22px 55px rgba(6, 26, 12, 0.12);
 }
 
@@ -321,16 +321,16 @@ p {
 h1 {
   max-width: 900px;
   margin-top: 18px;
-  font-size: clamp(42px, 6.4vw, 78px);
-  line-height: 1.05;
+  font-size: clamp(38px, 5.6vw, 66px);
+  line-height: 1.12;
   font-weight: 900;
   font-family: var(--serif);
 }
 
 h2 {
   margin-top: 14px;
-  font-size: clamp(28px, 3.9vw, 48px);
-  line-height: 1.1;
+  font-size: clamp(26px, 3.45vw, 42px);
+  line-height: 1.16;
   font-weight: 900;
   font-family: var(--serif);
 }
