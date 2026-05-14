@@ -1,0 +1,353 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.deck{width:100%;aspect-ratio:16/9;background:#07073d;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;font-family:'Inter',sans-serif;user-select:none}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:flex-start;padding:5% 7%;background:#07073d;transition:opacity .3s}
+.slide.active{display:flex}
+.blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:.35;pointer-events:none}
+.logo-bar{position:absolute;top:4%;left:5%;display:flex;align-items:center;gap:18px}
+.logo-text{color:#fff;font-size:clamp(10px,1.8vw,16px);font-weight:700;letter-spacing:2px;display:flex;align-items:center;gap:6px}
+.logo-dots{display:grid;grid-template-columns:repeat(4,6px);gap:3px}
+.dot{width:6px;height:6px;border-radius:50%;background:#4a9eff}
+.dot.pink{background:#e56bcc}
+.slide-num{position:absolute;bottom:4%;right:5%;color:rgba(255,255,255,.35);font-size:clamp(9px,1.4vw,13px)}
+.nav{position:absolute;bottom:4%;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.25);transition:background .3s;cursor:pointer}
+.nav-dot.on{background:#ff8c38}
+.pill{display:inline-block;padding:.3em 1em;border-radius:999px;font-size:clamp(9px,1.5vw,13px);font-weight:600;letter-spacing:.5px}
+.pill-orange{background:linear-gradient(90deg,#ff6a1a,#ffa940);color:#fff}
+.pill-blue{background:linear-gradient(90deg,#2563eb,#5b8dee);color:#fff}
+.tag{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:.25em .9em;color:rgba(255,255,255,.75);font-size:clamp(8px,1.3vw,12px)}
+.h1{color:#fff;font-size:clamp(22px,5vw,52px);font-weight:800;line-height:1.1;margin-bottom:.3em}
+.h2{color:#fff;font-size:clamp(16px,3.2vw,34px);font-weight:700;line-height:1.15;margin-bottom:.25em}
+.h3{color:#fff;font-size:clamp(13px,2.2vw,22px);font-weight:600;margin-bottom:.2em}
+.sub{color:rgba(255,255,255,.55);font-size:clamp(9px,1.6vw,15px);line-height:1.5}
+.card-row{display:flex;gap:2%;width:100%;margin-top:3%}
+.card{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:3% 4%}
+.card .label{color:#ff8c38;font-size:clamp(8px,1.3vw,12px);font-weight:700;letter-spacing:.5px;margin-bottom:.4em}
+.card .ctxt{color:rgba(255,255,255,.7);font-size:clamp(8px,1.3vw,12px);line-height:1.5}
+.split{display:flex;width:100%;gap:4%;align-items:flex-start;margin-top:3%}
+.col{flex:1}
+.row-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px}
+.dot-mark{width:7px;height:7px;border-radius:50%;background:#4a9eff;flex-shrink:0;margin-top:5px}
+.dot-mark.o{background:#ff8c38}
+.item-txt{color:rgba(255,255,255,.75);font-size:clamp(8px,1.35vw,12.5px);line-height:1.5}
+.divider{width:1px;background:rgba(255,255,255,.12);align-self:stretch}
+.badge{background:rgba(255,140,56,.12);border:1px solid rgba(255,140,56,.35);color:#ff8c38;border-radius:6px;padding:.15em .6em;font-size:clamp(7px,1.1vw,11px);font-weight:600;margin-right:4px}
+.timeline-row{display:flex;gap:0;width:100%;margin-top:3%}
+.tl-item{flex:1;position:relative;padding:0 1%}
+.tl-item:not(:last-child)::after{content:'';position:absolute;top:14px;right:0;width:100%;height:1px;background:rgba(255,255,255,.18);z-index:0}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:#ff8c38;margin-bottom:8px;position:relative;z-index:1}
+.tl-label{color:#ff8c38;font-size:clamp(7px,1.1vw,11px);font-weight:700;margin-bottom:4px}
+.tl-txt{color:rgba(255,255,255,.65);font-size:clamp(7px,1.1vw,10.5px);line-height:1.4}
+.agenda-row{display:flex;align-items:stretch;border-bottom:1px solid rgba(255,255,255,.08);padding:.5em 0}
+.agenda-time{color:#ff8c38;font-size:clamp(8px,1.3vw,12px);font-weight:700;min-width:18%;flex-shrink:0}
+.agenda-title{color:#fff;font-size:clamp(8px,1.3vw,12px);font-weight:600;min-width:35%;flex-shrink:0}
+.agenda-who{color:rgba(255,255,255,.45);font-size:clamp(7px,1.1vw,11px);flex:1}
+.cta-box{background:linear-gradient(135deg,rgba(37,99,235,.2),rgba(255,106,26,.15));border:1px solid rgba(255,140,56,.3);border-radius:10px;padding:3% 4%;margin-top:3%;width:100%}
+.big-num{font-size:clamp(28px,5.5vw,56px);font-weight:800;color:#ff8c38;line-height:1}
+</style>
+
+<div class="deck" id="deck" onclick="nextSlide()">
+
+<div class="slide active" id="s0">
+  <div class="blob" style="width:45%;height:60%;background:#2a1fc7;top:-10%;right:-5%"></div>
+  <div class="blob" style="width:30%;height:40%;background:#e056c0;bottom:5%;right:15%"></div>
+  <div class="logo-bar">
+    <div class="logo-text">
+      <div class="logo-dots">
+        <div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div>
+        <div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div>
+        <div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div>
+      </div>
+      CARDANO
+    </div>
+    <div style="color:rgba(255,255,255,.3);font-size:12px">×</div>
+    <div class="logo-text" style="font-size:clamp(8px,1.4vw,13px);color:rgba(255,255,255,.7)">Project Catalyst</div>
+  </div>
+  <div style="margin-top:6%">
+    <div style="margin-bottom:1em"><span class="pill pill-orange">Meetup #3 · Vietnam 2024</span></div>
+    <div class="h1">Catalyst &<br>Cấp Vốn<br>Khởi Nghiệp</div>
+    <div class="sub" style="max-width:55%;margin-top:.5em">Trên mọi nền tảng Blockchain<br>17:20 – 19:00 · Thứ Hai tới</div>
+    <div style="margin-top:1.5em;display:flex;gap:8px;flex-wrap:wrap">
+      <span class="tag">Cardano Việt Nam</span>
+      <span class="tag">BBO Tech</span>
+      <span class="tag">ĐH Nguyễn Tất Thành</span>
+    </div>
+    <div style="margin-top:2em;display:flex;gap:10px">
+      <span class="tag">HO CHI MINH</span>
+      <span class="tag">DA NANG</span>
+      <span class="tag">HA NOI</span>
+    </div>
+  </div>
+  <div class="slide-num">01 / 09</div>
+</div>
+
+<div class="slide" id="s1">
+  <div class="blob" style="width:35%;height:50%;background:#1a3fa0;top:-5%;right:0"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div class="h2">Mục lục</div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><div class="label">01</div><div class="h3" style="font-size:clamp(11px,1.8vw,17px)">Giới thiệu tổng quan</div><div class="ctxt">Bức tranh cấp vốn khởi nghiệp</div></div>
+    <div class="card"><div class="label">02</div><div class="h3" style="font-size:clamp(11px,1.8vw,17px)">Mô hình cấp vốn</div><div class="ctxt">Các hình thức phổ biến, ưu nhược điểm</div></div>
+    <div class="card"><div class="label">03</div><div class="h3" style="font-size:clamp(11px,1.8vw,17px)">Truyền thống vs Blockchain</div><div class="ctxt">So sánh hai hướng tiếp cận</div></div>
+  </div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><div class="label">04</div><div class="h3" style="font-size:clamp(11px,1.8vw,17px)">Cardano & Catalyst</div><div class="ctxt">Hệ sinh thái, quỹ cộng đồng, governance</div></div>
+    <div class="card"><div class="label">05</div><div class="h3" style="font-size:clamp(11px,1.8vw,17px)">Agenda chương trình</div><div class="ctxt">Lịch trình & người phụ trách</div></div>
+    <div class="card"><div class="label">06</div><div class="h3" style="font-size:clamp(11px,1.8vw,17px)">Mini Game & Q&A</div><div class="ctxt">Tương tác, quà tặng, kết nối cộng đồng</div></div>
+  </div>
+  <div class="slide-num">02 / 09</div>
+</div>
+
+<div class="slide" id="s2">
+  <div class="blob" style="width:40%;height:55%;background:#0d2fa0;top:-10%;right:0"></div>
+  <div class="blob" style="width:20%;height:30%;background:#c044a8;bottom:5%;right:20%"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div class="h2">Câu hỏi trọng tâm</div>
+  <div style="margin:3% 0 2%;background:rgba(255,255,255,.06);border-left:3px solid #ff8c38;border-radius:0 8px 8px 0;padding:3% 4%;max-width:85%">
+    <div style="color:#fff;font-size:clamp(13px,2.5vw,24px);font-weight:600;line-height:1.4;font-style:italic">"Startup có thể tiếp cận nguồn vốn bằng những cách nào — và blockchain đang mở ra mô hình cấp vốn mới ra sao?"</div>
+  </div>
+  <div class="card-row" style="margin-top:2%">
+    <div class="card"><div class="dot-mark o" style="margin-bottom:6px"></div><div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Lớp 1</div><div class="ctxt">Các mô hình cấp vốn phổ biến</div></div>
+    <div class="card"><div class="dot-mark o" style="margin-bottom:6px"></div><div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Lớp 2</div><div class="ctxt">Truyền thống vs Blockchain</div></div>
+    <div class="card"><div class="dot-mark o" style="margin-bottom:6px"></div><div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Lớp 3</div><div class="ctxt">Cardano · Catalyst · Cơ hội</div></div>
+  </div>
+  <div class="slide-num">03 / 09</div>
+</div>
+
+<div class="slide" id="s3">
+  <div class="blob" style="width:35%;height:50%;background:#1a1fa0;top:-5%;right:0"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div class="h2">Các mô hình cấp vốn khởi nghiệp</div>
+  <div class="card-row" style="flex-wrap:wrap;margin-top:2%">
+    <div class="card" style="min-width:30%;margin-bottom:2%">
+      <div class="label">Bootstrapping</div>
+      <div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Tự chủ hoàn toàn</div>
+      <div class="ctxt">Giữ quyền kiểm soát, nguồn lực nhỏ, không phụ thuộc bên ngoài</div>
+    </div>
+    <div class="card" style="min-width:30%;margin-bottom:2%">
+      <div class="label">Angel Investors</div>
+      <div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Giai đoạn sớm</div>
+      <div class="ctxt">Hỗ trợ seed stage, đổi lấy cổ phần, có mentorship</div>
+    </div>
+    <div class="card" style="min-width:30%;margin-bottom:2%">
+      <div class="label">Venture Capital</div>
+      <div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Tăng trưởng nhanh</div>
+      <div class="ctxt">Vốn lớn, áp lực mở rộng và exit rõ ràng</div>
+    </div>
+    <div class="card" style="min-width:45%;margin-bottom:0">
+      <div class="label">Crowdfunding</div>
+      <div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Cộng đồng góp vốn</div>
+      <div class="ctxt">Nhiều người đóng góp nhỏ qua nền tảng trực tuyến</div>
+    </div>
+    <div class="card" style="min-width:45%;margin-bottom:0">
+      <div class="label">Vay ngân hàng</div>
+      <div class="ctxt" style="color:#fff;font-weight:600;margin-bottom:4px">Không mất cổ phần</div>
+      <div class="ctxt">Có lãi suất, cần tài sản đảm bảo, áp lực trả nợ</div>
+    </div>
+  </div>
+  <div style="margin-top:2%;color:rgba(255,140,56,.9);font-size:clamp(8px,1.3vw,12px);font-style:italic">→ Startup cần hiểu giai đoạn phát triển để chọn nguồn vốn phù hợp</div>
+  <div class="slide-num">04 / 09</div>
+</div>
+
+<div class="slide" id="s4">
+  <div class="blob" style="width:40%;height:55%;background:#1a1fa0;top:-5%;right:0"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div class="h2">Truyền thống vs Blockchain</div>
+  <div class="split" style="margin-top:3%;height:60%">
+    <div class="col">
+      <div style="background:rgba(74,158,255,.08);border:1px solid rgba(74,158,255,.25);border-radius:8px;padding:4% 5%;height:100%">
+        <div class="ctxt" style="color:#4a9eff;font-weight:700;font-size:clamp(9px,1.5vw,13px);margin-bottom:8px">TRUYỀN THỐNG</div>
+        <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Ngân hàng & tổ chức tín dụng</div></div>
+        <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Nhà đầu tư cá nhân / quỹ đầu tư</div></div>
+        <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Hồ sơ tài chính & quan hệ kinh doanh</div></div>
+        <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Quy trình xét duyệt lâu, ít minh bạch</div></div>
+        <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Hạn chế địa lý và pháp lý</div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="col">
+      <div style="background:rgba(255,140,56,.08);border:1px solid rgba(255,140,56,.25);border-radius:8px;padding:4% 5%;height:100%">
+        <div class="ctxt" style="color:#ff8c38;font-weight:700;font-size:clamp(9px,1.5vw,13px);margin-bottom:8px">BLOCKCHAIN</div>
+        <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Cộng đồng token holders</div></div>
+        <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Quỹ kho bạc (Treasury)</div></div>
+        <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Cơ chế biểu quyết công khai</div></div>
+        <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Quản trị phi tập trung (Governance)</div></div>
+        <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Toàn cầu, không biên giới</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:2%;background:rgba(255,255,255,.05);border-radius:6px;padding:1.5% 3%;color:rgba(255,255,255,.6);font-size:clamp(7px,1.2vw,11.5px);font-style:italic">
+    Blockchain không thay thế hoàn toàn mô hình truyền thống — nhưng mở ra cách tiếp cận mới: minh bạch hơn và có sự tham gia rộng hơn.
+  </div>
+  <div class="slide-num">05 / 09</div>
+</div>
+
+<div class="slide" id="s5">
+  <div class="blob" style="width:45%;height:60%;background:#2a1fc7;top:-10%;right:-5%"></div>
+  <div class="blob" style="width:25%;height:35%;background:#c044a8;bottom:5%;right:10%"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div class="h2">Cardano & Catalyst</div>
+  <div style="margin:2% 0">
+    <span class="pill pill-blue" style="margin-right:6px">Catalyst</span>
+    <span class="pill pill-blue" style="margin-right:6px">Intersect</span>
+    <span class="pill pill-blue" style="margin-right:6px">Treasury</span>
+    <span class="pill pill-blue" style="margin-right:6px">Tokenomics</span>
+    <span class="pill pill-blue">Governance</span>
+  </div>
+  <div class="split" style="margin-top:2%">
+    <div class="col">
+      <div class="card" style="margin-bottom:2%">
+        <div class="label">Cardano</div>
+        <div class="ctxt">Không chỉ là blockchain — mà là hệ sinh thái có cộng đồng, cơ chế tài trợ và mô hình quản trị riêng biệt.</div>
+      </div>
+      <div class="card">
+        <div class="label">Catalyst</div>
+        <div class="ctxt">Nền tảng hỗ trợ ý tưởng và dự án trong hệ sinh thái Cardano. Bất kỳ ai cũng có thể đề xuất proposal và được cộng đồng bỏ phiếu cấp vốn.</div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card" style="margin-bottom:2%">
+        <div class="label">Treasury & Tokenomics</div>
+        <div class="ctxt">Quỹ kho bạc được tích lũy từ giao dịch. Được phân bổ qua voting cycle, không phụ thuộc vào nhà đầu tư trung tâm.</div>
+      </div>
+      <div class="card">
+        <div class="label">Intersect</div>
+        <div class="ctxt">Cấu trúc cộng đồng và quản trị. Các thành viên tham gia định hướng phát triển hệ sinh thái Cardano lâu dài.</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-num">06 / 09</div>
+</div>
+
+<div class="slide" id="s6">
+  <div class="blob" style="width:35%;height:50%;background:#1a1fa0;top:-5%;right:0"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div class="h2">Agenda chương trình</div>
+  <div style="margin-top:3%;width:100%">
+    <div style="display:flex;padding:.4em 0;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:.4em">
+      <div style="color:#ff8c38;font-size:clamp(7px,1.1vw,10px);font-weight:700;min-width:16%">THỜI LƯỢNG</div>
+      <div style="color:#ff8c38;font-size:clamp(7px,1.1vw,10px);font-weight:700;min-width:38%">NỘI DUNG</div>
+      <div style="color:#ff8c38;font-size:clamp(7px,1.1vw,10px);font-weight:700;min-width:22%">NGƯỜI PHỤ TRÁCH</div>
+      <div style="color:#ff8c38;font-size:clamp(7px,1.1vw,10px);font-weight:700;flex:1">MỤC TIÊU</div>
+    </div>
+    <div style="display:flex;padding:.6em 0;border-bottom:1px solid rgba(255,255,255,.07);align-items:flex-start">
+      <div style="min-width:16%"><span class="badge">10'</span></div>
+      <div style="min-width:38%;color:#fff;font-size:clamp(8px,1.3vw,12px);font-weight:600">Mô hình cấp vốn khởi nghiệp</div>
+      <div style="min-width:22%;color:rgba(255,255,255,.5);font-size:clamp(7px,1.2vw,11px)">Hưng</div>
+      <div style="flex:1;color:rgba(255,255,255,.6);font-size:clamp(7px,1.1vw,10.5px)">Giới thiệu hình thức cấp vốn, ưu/nhược điểm</div>
+    </div>
+    <div style="display:flex;padding:.6em 0;border-bottom:1px solid rgba(255,255,255,.07);align-items:flex-start">
+      <div style="min-width:16%"><span class="badge">20'</span></div>
+      <div style="min-width:38%;color:#fff;font-size:clamp(8px,1.3vw,12px);font-weight:600">Mô hình vốn của Cardano</div>
+      <div style="min-width:22%;color:rgba(255,255,255,.5);font-size:clamp(7px,1.2vw,11px)">Minh Bùi</div>
+      <div style="flex:1;color:rgba(255,255,255,.6);font-size:clamp(7px,1.1vw,10.5px)">Cardano, Catalyst, quỹ cộng đồng, tokenomics, governance</div>
+    </div>
+    <div style="display:flex;padding:.6em 0;align-items:flex-start">
+      <div style="min-width:16%"><span class="badge">15–20'</span></div>
+      <div style="min-width:38%;color:#fff;font-size:clamp(8px,1.3vw,12px);font-weight:600">Mini Game + Q&A</div>
+      <div style="min-width:22%;color:rgba(255,255,255,.5);font-size:clamp(7px,1.2vw,11px)">Ban tổ chức</div>
+      <div style="flex:1;color:rgba(255,255,255,.6);font-size:clamp(7px,1.1vw,10.5px)">Tăng tương tác, củng cố kiến thức, kết nối cộng đồng</div>
+    </div>
+  </div>
+  <div style="margin-top:2%;display:flex;gap:8px;align-items:center">
+    <span class="tag">17:20 – 19:00</span>
+    <span class="tag">Thứ Hai tới</span>
+    <span class="tag">Cardano VN × BBO Tech × ĐHNT</span>
+  </div>
+  <div class="slide-num">07 / 09</div>
+</div>
+
+<div class="slide" id="s7">
+  <div class="blob" style="width:35%;height:50%;background:#1a1fa0;top:-5%;right:0"></div>
+  <div class="blob" style="width:20%;height:30%;background:#c044a8;bottom:0;right:5%"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div class="h2">Kế hoạch chiến dịch truyền thông</div>
+  <div class="timeline-row" style="margin-top:4%">
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Trước sự kiện</div>
+      <div style="color:rgba(255,255,255,.4);font-size:clamp(7px,1.05vw,10px);margin-bottom:4px">13/05 – 18/05/2026</div>
+      <div class="tl-txt">Công bố chương trình, thu hút đăng ký, giới thiệu chủ đề & agenda</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Trong sự kiện</div>
+      <div style="color:rgba(255,255,255,.4);font-size:clamp(7px,1.05vw,10px);margin-bottom:4px">18/05/2026</div>
+      <div class="tl-txt">Check-in, quote trực tiếp, hình ảnh lớp học, mini game & Q&A live</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-label">Sau sự kiện</div>
+      <div style="color:rgba(255,255,255,.4);font-size:clamp(7px,1.05vw,10px);margin-bottom:4px">19/05 – 23/05/2026</div>
+      <div class="tl-txt">Recap, album ảnh, bài cảm ơn, tài liệu tóm tắt, CTA cộng đồng</div>
+    </div>
+  </div>
+  <div class="card-row" style="margin-top:3%">
+    <div class="card">
+      <div class="label">Output sau chương trình</div>
+      <div class="row-item" style="margin-top:4px"><div class="dot-mark o"></div><div class="item-txt">Hiểu cơ bản các mô hình cấp vốn khởi nghiệp</div></div>
+      <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Phân biệt gọi vốn truyền thống và blockchain</div></div>
+      <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Biết Cardano/Catalyst như case study thực tế</div></div>
+      <div class="row-item"><div class="dot-mark o"></div><div class="item-txt">Tham gia nhóm cộng đồng Cardano VN</div></div>
+    </div>
+    <div class="card">
+      <div class="label">Quà tặng Mini Game</div>
+      <div class="row-item" style="margin-top:4px"><div class="dot-mark"></div><div class="item-txt">Lót chuột Cardano</div></div>
+      <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Túi xách cộng đồng</div></div>
+      <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Ly nước</div></div>
+      <div class="row-item"><div class="dot-mark"></div><div class="item-txt">Vật phẩm đặc biệt</div></div>
+    </div>
+  </div>
+  <div class="slide-num">08 / 09</div>
+</div>
+
+<div class="slide" id="s8">
+  <div class="blob" style="width:50%;height:65%;background:#2a1fc7;top:-15%;right:-10%"></div>
+  <div class="blob" style="width:30%;height:40%;background:#e056c0;bottom:0;right:15%"></div>
+  <div class="logo-bar"><div class="logo-text"><div class="logo-dots"><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot"></div><div class="dot pink"></div><div class="dot"></div><div class="dot pink"></div></div>CARDANO</div></div>
+  <div style="margin-top:8%">
+    <div style="background:linear-gradient(90deg,#ff6a1a,#ffa940);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:clamp(36px,7vw,80px);font-weight:900;line-height:1">Cảm ơn!</div>
+    <div class="h3" style="margin-top:.5em;color:rgba(255,255,255,.7)">Có câu hỏi nào không?</div>
+    <div style="margin-top:1.5em;display:flex;flex-direction:column;gap:6px">
+      <div style="color:rgba(255,255,255,.5);font-size:clamp(8px,1.3vw,12px)">cardano.org/vietnam</div>
+      <div style="color:rgba(255,255,255,.5);font-size:clamp(8px,1.3vw,12px)">t.me/CardanoVietnam</div>
+    </div>
+    <div style="margin-top:1.5em;display:flex;gap:8px;flex-wrap:wrap">
+      <span class="tag">Cardano Việt Nam</span>
+      <span class="tag">BBO Tech</span>
+      <span class="tag">ĐH Nguyễn Tất Thành</span>
+    </div>
+    <div style="margin-top:1em;color:rgba(255,255,255,.25);font-size:clamp(7px,1.1vw,10px)">Funded by Project Catalyst</div>
+  </div>
+  <div class="slide-num">09 / 09</div>
+</div>
+
+<div class="nav" id="nav"></div>
+</div>
+
+<script>
+const total = 9;
+let cur = 0;
+const nav = document.getElementById('nav');
+for(let i=0;i<total;i++){
+  const d = document.createElement('div');
+  d.className = 'nav-dot'+(i===0?' on':'');
+  d.onclick = function(e){e.stopPropagation();goTo(i)};
+  nav.appendChild(d);
+}
+function goTo(n){
+  document.getElementById('s'+cur).classList.remove('active');
+  nav.children[cur].classList.remove('on');
+  cur = (n+total)%total;
+  document.getElementById('s'+cur).classList.add('active');
+  nav.children[cur].classList.add('on');
+}
+function nextSlide(){goTo(cur+1)}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' ')goTo(cur+1);
+  if(e.key==='ArrowLeft')goTo(cur-1);
+});
+</script>

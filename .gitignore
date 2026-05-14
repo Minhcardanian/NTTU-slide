@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.netlify/
+*.log
+*.Zone.Identifier
+cardano_meetup_slideshow.html:Zone.Identifier
