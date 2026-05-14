@@ -750,11 +750,43 @@ function overviewSections() {
 function render() {
   const slide = deck[state.current];
   const progress = ((state.current + 1) / deck.length) * 100;
+  const tickerItems = [
+    ['Treasury', '₳ 1.63B'],
+    ['Supply epoch', '630'],
+    ['Tx range', '528-627'],
+    ['Transactions', '17.99M'],
+    ['Catalyst', 'Fund15 paused'],
+    ['Case study', 'Fund14 Vietnam Meetups']
+  ];
 
   app.innerHTML = `
     <main class="app-shell">
       <div class="ambient ambient-one"></div>
       <div class="ambient ambient-two"></div>
+
+      <header class="remix-nav">
+        <div class="nav-logo">
+          <div class="dot-grid" aria-hidden="true">
+            ${Array.from({ length: 12 }, () => '<span></span>').join('')}
+          </div>
+          <div class="logo-text">
+            <div class="logo-name">NTTU CARDANO</div>
+            <div class="logo-sub">Catalyst · Vietnam 2026</div>
+          </div>
+        </div>
+        <div class="nav-links">
+          ${overviewSections().map((section) => `<button type="button" data-slide-target="${section.items[0].index}">${section.name}</button>`).join('')}
+        </div>
+        <button type="button" class="nav-pill" data-action="fullscreen">Fullscreen</button>
+      </header>
+
+      <div class="ticker-wrap" aria-label="Cardano snapshot">
+        <div class="ticker-track">
+          ${[...tickerItems, ...tickerItems]
+            .map(([label, value]) => `<div class="ticker-item"><span>${label}</span><strong>${value}</strong></div>`)
+            .join('')}
+        </div>
+      </div>
 
       <section class="stage" aria-label="Bộ slide Cardano Meetup">
         <article class="slide-frame" data-slide="${state.current}">
