@@ -419,40 +419,38 @@ function slideInner(slide) {
     `;
   }
 
+  if (slide.type === 'problem') {
+    return `
+      ${slideHeader(slide)}
+      ${painMatrix(slide.cards)}
+    `;
+  }
+
+  if (slide.type === 'funding-grid') {
+    return `
+      ${slideHeader(slide)}
+      ${fundingLadder(slide.cards)}
+    `;
+  }
+
   if (slide.type === 'compare') {
     return `
       ${slideHeader(slide)}
-      <div class="compare-grid">
-        ${slide.columns
-          .map(
-            (column) => `
-          <article class="compare-card ${column.accent}">
-            <h3>${column.name}</h3>
-            <ul>${column.points.map((point) => `<li>${point}</li>`).join('')}</ul>
-          </article>
-        `
-          )
-          .join('')}
-      </div>
+      ${compareRadar(slide.columns)}
     `;
   }
 
   if (slide.type === 'flow') {
     return `
       ${slideHeader(slide)}
-      <div class="flow-line">
-        ${slide.steps
-          .map(
-            ([title, text], index) => `
-          <article>
-            <span>${String(index + 1).padStart(2, '0')}</span>
-            <h3>${title}</h3>
-            <p>${text}</p>
-          </article>
-        `
-          )
-          .join('')}
-      </div>
+      ${loopDiagram(slide.steps)}
+    `;
+  }
+
+  if (slide.type === 'governance-grid') {
+    return `
+      ${slideHeader(slide)}
+      ${governanceArchitecture(slide.cards)}
     `;
   }
 
@@ -535,77 +533,45 @@ function slideInner(slide) {
     `;
   }
 
+  if (slide.type === 'ecosystem-grid') {
+    return `
+      ${slideHeader(slide)}
+      ${ecosystemMap(slide.cards)}
+    `;
+  }
+
+  if (slide.type === 'checklist') {
+    return `
+      ${slideHeader(slide)}
+      ${scorecard(slide.cards)}
+    `;
+  }
+
   if (slide.type === 'case-study') {
     return `
       ${slideHeader(slide)}
-      <div class="case-layout">
-        <aside class="case-summary">
-          ${slide.summary
-            .map(
-              ([label, value]) => `
-            <div>
-              <span>${label}</span>
-              <strong>${value}</strong>
-            </div>
-          `
-            )
-            .join('')}
-        </aside>
-        <div class="card-grid compact">${slide.cards.map(([title, text]) => infoCard(title, text)).join('')}</div>
-      </div>
+      ${caseDashboard(slide)}
     `;
   }
 
   if (slide.type === 'agenda') {
     return `
       ${slideHeader(slide)}
-      <div class="agenda-list">
-        ${slide.agenda
-          .map(
-            ([time, title, owner, goal]) => `
-          <article>
-            <time>${time}</time>
-            <h3>${title}</h3>
-            <strong>${owner}</strong>
-            <p>${goal}</p>
-          </article>
-        `
-          )
-          .join('')}
-      </div>
+      ${runOfShow(slide.agenda)}
     `;
   }
 
   if (slide.type === 'timeline') {
     return `
       ${slideHeader(slide)}
-      <div class="timeline">
-        ${slide.steps
-          .map(
-            ([date, title, text]) => `
-          <article>
-            <time>${date}</time>
-            <h3>${title}</h3>
-            <p>${text}</p>
-          </article>
-        `
-          )
-          .join('')}
-      </div>
-      <div class="mini-card-row">${slide.cards.map(([title, text]) => infoCard(title, text)).join('')}</div>
+      ${campaignTimeline(slide)}
     `;
   }
 
   if (slide.type === 'quiz') {
     return `
       ${slideHeader(slide)}
-      <div class="quiz-layout">
-        <div class="card-grid compact">${slide.cards.map(([title, text]) => infoCard(title, text)).join('')}</div>
-        <aside class="prize-panel">
-          <span class="section-label">Quà tặng</span>
-          ${slide.prizes.map((prize) => `<div>${prize}</div>`).join('')}
-        </aside>
-      </div>
+      ${quizBoard(slide)}
     `;
   }
 
@@ -624,6 +590,253 @@ function slideInner(slide) {
   return `
     ${slideHeader(slide)}
     <div class="card-grid">${slide.cards.map(([title, text, extra]) => infoCard(title, text, extra)).join('')}</div>
+  `;
+}
+
+function painMatrix(cards) {
+  const severity = [86, 78, 72, 90];
+  return `
+    <div class="pain-matrix">
+      ${cards
+        .map(
+          ([title, text], index) => `
+        <article>
+          <div class="visual-index">${String(index + 1).padStart(2, '0')}</div>
+          <h3>${title}</h3>
+          <p>${text}</p>
+          <div class="severity"><span style="width:${severity[index]}%"></span></div>
+          <small>Impact ${severity[index]}%</small>
+        </article>
+      `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function fundingLadder(cards) {
+  const axis = ['Tự chủ', 'Mentor', 'Cộng đồng', 'Scale', 'Doanh thu'];
+  return `
+    <div class="funding-ladder">
+      <div class="ladder-axis">${axis.map((item) => `<span>${item}</span>`).join('')}</div>
+      <div class="ladder-track">
+        ${cards
+          .map(
+            ([title, text], index) => `
+          <article style="--step:${index + 1}">
+            <span>${String(index + 1).padStart(2, '0')}</span>
+            <h3>${title}</h3>
+            <p>${text}</p>
+          </article>
+        `
+          )
+          .join('')}
+      </div>
+    </div>
+  `;
+}
+
+function compareRadar(columns) {
+  const rows = [
+    ['Decision maker', 'Tập trung', 'Cộng đồng'],
+    ['Transparency', 'Báo cáo định kỳ', 'Theo dõi công khai'],
+    ['Access', 'Quan hệ / địa lý', 'Toàn cầu'],
+    ['Accountability', 'Hợp đồng / investor', 'Milestone + on-chain trace'],
+    ['Funding source', 'Ngân hàng / quỹ', 'Treasury / token holders']
+  ];
+  return `
+    <div class="compare-radar">
+      <div class="radar-head"><strong>${columns[0].name}</strong><strong>${columns[1].name}</strong></div>
+      ${rows
+        .map(
+          ([label, left, right], index) => `
+        <div class="radar-row">
+          <div><span>${label}</span><p>${left}</p></div>
+          <div class="radar-meter"><span style="left:${18 + index * 11}%"></span></div>
+          <div><span>${label}</span><p>${right}</p></div>
+        </div>
+      `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function loopDiagram(steps) {
+  return `
+    <div class="loop-diagram">
+      <div class="loop-core">
+        <strong>Treasury</strong>
+        <span>funding loop</span>
+      </div>
+      ${steps
+        .map(
+          ([title, text], index) => `
+        <article class="loop-node node-${index + 1}">
+          <span>${String(index + 1).padStart(2, '0')}</span>
+          <h3>${title}</h3>
+          <p>${text}</p>
+        </article>
+      `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function governanceArchitecture(cards) {
+  return `
+    <div class="governance-arch">
+      <div class="arch-top">
+        ${cards
+          .slice(4, 6)
+          .map(([title, text]) => `<article><h3>${title}</h3><p>${text}</p></article>`)
+          .join('')}
+      </div>
+      <div class="arch-middle">
+        ${cards
+          .slice(1, 4)
+          .map(([title, text]) => `<article><h3>${title}</h3><p>${text}</p></article>`)
+          .join('')}
+      </div>
+      <div class="arch-base">
+        <article><h3>${cards[0][0]}</h3><p>${cards[0][1]}</p></article>
+        <strong>Ada holders delegate / vote</strong>
+      </div>
+    </div>
+  `;
+}
+
+function ecosystemMap(cards) {
+  return `
+    <div class="ecosystem-map">
+      <div class="map-core"><strong>Cardano</strong><span>ecosystem layers</span></div>
+      ${cards
+        .map(
+          ([title, text], index) => `
+        <article class="map-node map-${index + 1}">
+          <h3>${title}</h3>
+          <p>${text}</p>
+        </article>
+      `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function scorecard(cards) {
+  const weights = [20, 18, 15, 17, 15, 15];
+  return `
+    <div class="scorecard">
+      ${cards
+        .map(
+          ([title, text], index) => `
+        <article>
+          <div class="score-ring">${weights[index]}%</div>
+          <h3>${title}</h3>
+          <p>${text}</p>
+        </article>
+      `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function caseDashboard(slide) {
+  const metricCards = slide.cards.slice(0, 3);
+  const checklist = slide.cards.slice(3);
+  return `
+    <div class="case-dashboard">
+      <aside class="case-summary">
+        ${slide.summary
+          .map(
+            ([label, value]) => `
+          <div>
+            <span>${label}</span>
+            <strong>${value}</strong>
+          </div>
+        `
+          )
+          .join('')}
+        <div class="milestone-progress"><span style="width:25%"></span></div>
+        <small>Milestone progress 1/4</small>
+      </aside>
+      <div class="case-main">
+        <div class="mini-card-row">${metricCards.map(([title, text]) => infoCard(title, text)).join('')}</div>
+        <div class="deliverable-list">
+          ${checklist.map(([title, text]) => `<article><span>✓</span><div><h3>${title}</h3><p>${text}</p></div></article>`).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function runOfShow(agenda) {
+  return `
+    <div class="runofshow">
+      ${agenda
+        .map(
+          ([time, title, owner, goal]) => `
+        <article>
+          <time>${time}</time>
+          <div>
+            <h3>${title}</h3>
+            <span>${owner}</span>
+            <p>${goal}</p>
+          </div>
+        </article>
+      `
+        )
+        .join('')}
+    </div>
+  `;
+}
+
+function campaignTimeline(slide) {
+  return `
+    <div class="campaign-board">
+      <div class="campaign-phases">
+        ${slide.steps
+          .map(
+            ([date, title, text], index) => `
+          <article>
+            <span>${String(index + 1).padStart(2, '0')}</span>
+            <time>${date}</time>
+            <h3>${title}</h3>
+            <p>${text}</p>
+          </article>
+        `
+          )
+          .join('')}
+      </div>
+      <div class="campaign-outputs">${slide.cards.map(([title, text]) => infoCard(title, text)).join('')}</div>
+    </div>
+  `;
+}
+
+function quizBoard(slide) {
+  return `
+    <div class="quiz-board">
+      <div class="quiz-tiles">
+        ${slide.cards
+          .map(
+            ([title, text], index) => `
+          <article>
+            <span>${title}</span>
+            <strong>${index + 1}</strong>
+            <p>${text}</p>
+          </article>
+        `
+          )
+          .join('')}
+      </div>
+      <aside class="prize-panel">
+        <span class="section-label">Quà tặng</span>
+        ${slide.prizes.map((prize) => `<div>${prize}</div>`).join('')}
+      </aside>
+    </div>
   `;
 }
 
