@@ -1,21 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap&subset=vietnamese');
 
 :root {
-  --bg: #080a18;
-  --surface: #101426;
-  --surface-strong: #151a31;
-  --surface-soft: rgba(255, 255, 255, 0.07);
-  --line: rgba(255, 255, 255, 0.13);
-  --text: #f7f8ff;
-  --muted: #aeb6d6;
-  --muted-soft: #7780a3;
-  --blue: #4a9eff;
-  --blue-deep: #1f4ed8;
-  --orange: #ff8c38;
-  --orange-strong: #ff6a1a;
-  --pink: #e56bcc;
-  --green: #2bd18f;
-  --shadow: 0 26px 90px rgba(0, 0, 0, 0.38);
+  --bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-strong: #eef3fb;
+  --surface-soft: rgba(255, 255, 255, 0.88);
+  --line: rgba(28, 43, 72, 0.12);
+  --text: #172033;
+  --muted: #536079;
+  --muted-soft: #7c879d;
+  --blue: #2563eb;
+  --blue-deep: #1d4ed8;
+  --orange: #e86f1d;
+  --orange-strong: #d95f12;
+  --pink: #ca5ab8;
+  --green: #0f9f6e;
+  --shadow: 0 20px 55px rgba(39, 55, 86, 0.13);
 }
 
 * {
@@ -27,9 +27,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 12% 18%, rgba(74, 158, 255, 0.2), transparent 28%),
-    radial-gradient(circle at 88% 10%, rgba(229, 107, 204, 0.17), transparent 30%),
-    linear-gradient(135deg, #070917 0%, #0e1327 52%, #11101f 100%);
+    radial-gradient(circle at 10% 10%, rgba(37, 99, 235, 0.12), transparent 28%),
+    radial-gradient(circle at 92% 8%, rgba(232, 111, 29, 0.1), transparent 30%),
+    linear-gradient(135deg, #f8fbff 0%, #eef3fb 54%, #f9fafb 100%);
   color: var(--text);
   font-family: 'Be Vietnam Pro', Arial, sans-serif;
   letter-spacing: 0;
@@ -51,7 +51,7 @@ button {
 .app-shell:fullscreen {
   width: 100vw;
   height: 100vh;
-  background: #060816;
+  background: var(--bg);
 }
 
 .ambient {
@@ -87,7 +87,7 @@ button {
 }
 
 .overview {
-  background: rgba(16, 20, 38, 0.68);
+  background: rgba(255, 255, 255, 0.94);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
   backdrop-filter: blur(22px);
@@ -123,11 +123,11 @@ button {
   overflow: hidden;
   padding: clamp(30px, 4.4vw, 58px);
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 24%),
-    radial-gradient(circle at 82% 20%, rgba(74, 158, 255, 0.19), transparent 28%),
-    radial-gradient(circle at 76% 78%, rgba(255, 140, 56, 0.15), transparent 24%),
-    #080b1f;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+    linear-gradient(145deg, rgba(37, 99, 235, 0.08), transparent 25%),
+    radial-gradient(circle at 84% 16%, rgba(37, 99, 235, 0.1), transparent 30%),
+    radial-gradient(circle at 78% 82%, rgba(232, 111, 29, 0.09), transparent 28%),
+    #ffffff;
+  border: 1px solid rgba(28, 43, 72, 0.1);
   border-radius: 8px;
   box-shadow: var(--shadow);
   animation: slideIn 0.52s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -138,8 +138,8 @@ button {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(28, 43, 72, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 43, 72, 0.045) 1px, transparent 1px);
   background-size: 42px 42px;
   mask-image: linear-gradient(130deg, black, transparent 64%);
   pointer-events: none;
@@ -157,12 +157,32 @@ button {
   align-items: center;
   min-height: 28px;
   padding: 5px 12px;
-  border: 1px solid rgba(255, 140, 56, 0.35);
+  border: 1px solid rgba(232, 111, 29, 0.24);
   border-radius: 999px;
-  background: rgba(255, 140, 56, 0.13);
-  color: #ffd3b8;
+  background: rgba(232, 111, 29, 0.1);
+  color: #a74d12;
   font-size: clamp(10px, 1vw, 13px);
   font-weight: 800;
+}
+
+.slide-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.category-tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #eaf1ff;
+  color: var(--blue-deep);
+  font-size: clamp(10px, 1vw, 13px);
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 h1,
@@ -257,10 +277,10 @@ h2 {
   min-height: 32px;
   align-items: center;
   padding: 6px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(28, 43, 72, 0.12);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07);
-  color: #dce2ff;
+  background: #f4f7fc;
+  color: #27334b;
   font-size: 13px;
   font-weight: 600;
 }
@@ -325,7 +345,7 @@ h2 {
 .overview-grid button:hover {
   transform: translateY(-3px);
   border-color: rgba(255, 140, 56, 0.45);
-  background: rgba(255, 255, 255, 0.1);
+  background: #ffffff;
 }
 
 .info-card h3,
@@ -429,7 +449,7 @@ h2 {
   width: 54%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: #080b1f;
+  background: #ffffff;
   color: var(--text);
   font-size: 28px;
   font-weight: 900;
@@ -501,7 +521,7 @@ h2 {
   height: 13px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.09);
+  background: rgba(28, 43, 72, 0.09);
 }
 
 .bar-track span,
@@ -556,12 +576,12 @@ h2 {
 .dashboard-callout {
   padding: 12px;
   border-color: rgba(74, 158, 255, 0.32);
-  background: rgba(74, 158, 255, 0.1);
+  background: rgba(37, 99, 235, 0.08);
 }
 
 .dashboard-callout strong {
   margin-top: 0;
-  color: #dceaff;
+  color: var(--blue-deep);
   font-size: 14px;
 }
 
@@ -605,7 +625,7 @@ h2 {
 
 .case-summary div {
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  border-bottom: 1px solid rgba(28, 43, 72, 0.09);
 }
 
 .case-summary div:last-child {
@@ -634,7 +654,7 @@ h2 {
   bottom: 19px;
   z-index: 2;
   max-width: calc(100% - 180px);
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(83, 96, 121, 0.82);
   font-size: 10px;
   font-weight: 700;
   line-height: 1.35;
@@ -644,13 +664,13 @@ h2 {
 .source-footnote a {
   color: inherit;
   text-decoration: underline;
-  text-decoration-color: rgba(255, 255, 255, 0.25);
+  text-decoration-color: rgba(83, 96, 121, 0.28);
   text-underline-offset: 2px;
 }
 
 .source-footnote:hover,
 .source-footnote a:hover {
-  color: #ffd3b8;
+  color: var(--orange);
 }
 
 .compare-grid {
@@ -750,7 +770,7 @@ h2 {
 }
 
 .agenda-list strong {
-  color: #dfe6ff;
+  color: var(--text);
   font-size: 14px;
 }
 
@@ -796,8 +816,8 @@ h2 {
   min-height: 42px;
   padding: 11px 12px;
   border-radius: 8px;
-  background: rgba(43, 209, 143, 0.1);
-  color: #d8fff0;
+  background: rgba(15, 159, 110, 0.1);
+  color: #0b6f50;
   font-weight: 700;
 }
 
@@ -808,7 +828,7 @@ h2 {
 
 .closing-layout h2 {
   max-width: 900px;
-  background: linear-gradient(90deg, #fff, #ffd3b8 45%, #ff8c38);
+  background: linear-gradient(90deg, var(--text), var(--blue) 45%, var(--orange));
   background-clip: text;
   color: transparent;
   font-size: clamp(42px, 7vw, 82px);
@@ -818,7 +838,7 @@ h2 {
   position: absolute;
   right: 24px;
   bottom: 18px;
-  color: rgba(255, 255, 255, 0.34);
+  color: rgba(83, 96, 121, 0.62);
   font-size: 13px;
   font-weight: 800;
 }
@@ -827,7 +847,7 @@ h2 {
   height: 5px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(28, 43, 72, 0.09);
 }
 
 .progress-track span {
@@ -849,7 +869,7 @@ h2 {
 .overview-header button {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.92);
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
@@ -866,7 +886,7 @@ h2 {
 .overview-header button:hover {
   transform: translateY(-2px);
   border-color: rgba(255, 140, 56, 0.45);
-  background: rgba(255, 140, 56, 0.16);
+  background: rgba(232, 111, 29, 0.12);
 }
 
 .controls svg {
@@ -924,21 +944,38 @@ h2 {
   padding: 0 12px;
 }
 
+.overview-sections {
+  display: grid;
+  gap: 18px;
+  max-height: calc(100vh - 92px);
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.overview-section h3 {
+  margin: 0 0 9px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
 .overview-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
 .overview-grid button {
-  min-height: 145px;
+  min-height: 124px;
   padding: 14px;
   text-align: left;
+  box-shadow: 0 8px 24px rgba(39, 55, 86, 0.08);
 }
 
 .overview-grid button.active {
   border-color: var(--orange);
-  background: rgba(255, 140, 56, 0.16);
+  background: rgba(232, 111, 29, 0.1);
 }
 
 .overview-grid span {
@@ -948,9 +985,10 @@ h2 {
 
 .overview-grid strong {
   display: block;
-  margin-top: 18px;
+  margin-top: 14px;
   font-size: 15px;
   line-height: 1.3;
+  color: var(--text);
 }
 
 .overview-grid small {

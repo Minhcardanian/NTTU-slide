@@ -374,6 +374,13 @@ const state = {
 };
 
 const app = document.querySelector('#app');
+const categoryRules = [
+  { types: ['cover', 'problem', 'funding-grid', 'compare'], name: 'Foundation' },
+  { types: ['flow', 'governance-grid'], name: 'Governance' },
+  { types: ['snapshot', 'treasury-chart', 'activity-chart', 'catalyst-chart', 'ecosystem-grid'], name: 'Data' },
+  { types: ['checklist', 'case-study'], name: 'Workshop' },
+  { types: ['agenda', 'timeline', 'quiz', 'closing'], name: 'Event' }
+];
 
 function logo() {
   return `
@@ -400,7 +407,7 @@ function slideInner(slide) {
     return `
       <section class="hero-layout">
         <div>
-          <span class="pill">${slide.eyebrow}</span>
+          <div class="slide-kicker">${categoryTag(slide)}<span class="pill">${slide.eyebrow}</span></div>
           <h1>${slide.title}</h1>
           <p>${slide.subtitle}</p>
           <div class="chip-row">${slide.chips.map((chip) => `<span>${chip}</span>`).join('')}</div>
@@ -623,7 +630,7 @@ function slideInner(slide) {
 function slideHeader(slide) {
   return `
     <header class="slide-header">
-      <span class="section-label">${slide.eyebrow}</span>
+      <div class="slide-kicker">${categoryTag(slide)}<span class="section-label">${slide.eyebrow}</span></div>
       <h2>${slide.title}</h2>
       <p>${slide.subtitle}</p>
     </header>
@@ -721,6 +728,25 @@ function sourceFootnote(slide) {
   `;
 }
 
+function getCategory(slide) {
+  return categoryRules.find((rule) => rule.types.includes(slide.type))?.name || 'Deck';
+}
+
+function categoryTag(slide) {
+  return `<span class="category-tag">${getCategory(slide)}</span>`;
+}
+
+function overviewSections() {
+  return categoryRules
+    .map((rule) => {
+      const items = deck
+        .map((item, index) => ({ item, index }))
+        .filter(({ item }) => rule.types.includes(item.type));
+      return { name: rule.name, items };
+    })
+    .filter((section) => section.items.length);
+}
+
 function render() {
   const slide = deck[state.current];
   const progress = ((state.current + 1) / deck.length) * 100;
@@ -762,15 +788,26 @@ function render() {
           <span class="section-label">Mục lục</span>
           <button type="button" data-action="close-overview" aria-label="Đóng mục lục">Close</button>
         </div>
-        <div class="overview-grid">
-          ${deck
+        <div class="overview-sections">
+          ${overviewSections()
             .map(
-              (item, index) => `
-            <button type="button" class="${index === state.current ? 'active' : ''}" data-slide-target="${index}">
-              <span>${String(index + 1).padStart(2, '0')}</span>
-              <strong>${item.title}</strong>
-              <small>${item.eyebrow}</small>
-            </button>
+              (section) => `
+            <section class="overview-section">
+              <h3>${section.name}</h3>
+              <div class="overview-grid">
+                ${section.items
+                  .map(
+                    ({ item, index }) => `
+                <button type="button" class="${index === state.current ? 'active' : ''}" data-slide-target="${index}">
+                  <span>${String(index + 1).padStart(2, '0')}</span>
+                  <strong>${item.title}</strong>
+                  <small>${item.eyebrow}</small>
+                </button>
+              `
+                  )
+                  .join('')}
+              </div>
+            </section>
           `
             )
             .join('')}
