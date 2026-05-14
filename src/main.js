@@ -859,7 +859,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 function toggleFullscreen() {
-  const target = document.querySelector('.app-shell') || document.documentElement;
+  const target = document.documentElement;
 
   if (!document.fullscreenElement) {
     if (target.requestFullscreen) {

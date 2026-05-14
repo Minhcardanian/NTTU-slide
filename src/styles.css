@@ -48,7 +48,9 @@ button {
   overflow: hidden;
 }
 
-.app-shell:fullscreen {
+html:fullscreen,
+html:fullscreen body,
+html:fullscreen .app-shell {
   width: 100vw;
   height: 100vh;
   background: var(--bg);
